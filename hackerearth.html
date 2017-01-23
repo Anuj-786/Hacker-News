@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hacker News</title>
+	<style type="text/css"></style>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		function gettingJSON(){
+			window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+
+			window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+			window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange
+
+			if (!window.indexedDB) {
+				console.log("Your browser doesn't support a stable version of IndexedDB.")
+			}
+
+			$.getJSON("http://starlord.hackerearth.com/cleartrip/hackernews",function(json){
+          		//console.log(JSON.stringify(json));
+          		// Put the object into storage
+          		
+          		var setObject = localStorage.setItem('jsonObject', JSON.stringify(json));
+
+				// Retrieve the object from storage
+				var retrievedObject = localStorage.getItem('jsonObject', setObject);
+				var count = 1;
+
+				retrievedObject.count = count;
+				//console.log(retrievedObject.id)
+				var parseJsaon = JSON.parse(retrievedObject);
+				for (var i=1; i<parseJsaon.length; i++ ) {
+					var loop = parseJsaon[i];
+					
+					
+					
+					//var test = document.createElement('p').innerHTML = loop.id;
+					//console.log(test)
+
+					var br = document.createElement("br");	
+
+					// Create a <li> node
+					var node_num = document.createElement("span"); 
+					node_num.setAttribute("id", "number");
+					node_num.appendChild(br); 			
+					// Create a text node
+					var textnode = document.createTextNode(count++);         
+
+					// Append the text to <li>
+					node_num.appendChild(textnode);                              
+					document.getElementById("numbers").appendChild(node_num).innerHTML; 
+
+
+					var title_node = document.createElement("a");
+					title_node.setAttribute("id", "test");
+					title_node.href = loop.url;
+					var br = document.createElement("br");	
+					title_node.appendChild(br)
+					var titleText = document.createTextNode(loop.title);
+					title_node.appendChild(titleText);
+					document.getElementById("title").appendChild(title_node).innerHTML;
+
+					
+				}
+
+
+			});
+		}
+		gettingJSON();
+	</script>
+</head>
+<body>
+	<div class="container"> 
+		<div class="row">
+			<div class="col-md-12">
+				<div id="numbers" class="col-md-1">
+					
+				</div>
+				<div id=title class="col-md-6 titles">
+					
+				</div>
+				<div class="col-md-5 url" id="urls">
+					
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</body>
+</html>
